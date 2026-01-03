@@ -28,7 +28,7 @@ export async function getAllChatsForUser(req, res) {
 export async function getMessages(req, res) {
   try {
     const { chatId } = req.query;
-
+    console.log("hi");
     
 
      const cursor = req.query.cursor
