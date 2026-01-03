@@ -5,6 +5,7 @@ import App from './App.jsx'
 import { persistor, store } from './00-app/store.js'
 import { PersistGate } from 'redux-persist/integration/react'
 import { Provider } from 'react-redux'
+import SocketProvider from './07-providers/SocketProvider.jsx'
 
  createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -12,7 +13,9 @@ import { Provider } from 'react-redux'
     <Provider store={store}>  
         
     <PersistGate loading={null} persistor={persistor}>
-      <App />
+      <SocketProvider>
+          <App />
+        </SocketProvider>
     </PersistGate>
     
     </Provider> 

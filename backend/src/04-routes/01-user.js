@@ -4,6 +4,8 @@ import { jwtAuthMiddeware } from "../05-middlewares/jwtAuthMiddelware.js";
 import { upload } from "../05-middlewares/multer.js";
 export const userRouter=Router();
 
+
+
 userRouter.post("/register",registerUser);
 userRouter.post("/verify-email",verifiyEmail);
 userRouter.post("/resend-Code",ResendCode);

@@ -167,6 +167,8 @@ export async function ResendCode(req, res) {
 // login the user
 export async function loginUser(req, res) {
   try {
+
+    console.log("hi");
     const { email, password } = req.body;
     const existingUser = await findUserByEmail(email);
 

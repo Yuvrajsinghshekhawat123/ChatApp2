@@ -134,3 +134,24 @@ export async function updateUserPassword(email, hashednewPassword) {
         update users set password=? WHERE email=?
     `,[hashednewPassword,email]);
 }
+
+
+
+
+
+
+// get user by email and userid
+export async function findUserByEmailExcludingSelf(email, userId) {
+  const db = getDB();
+
+
+  // id != ? → exclude logged-in user
+  const [rows] = await db.execute(
+    `SELECT id, name, email, avatar
+     FROM users
+     WHERE email = ? AND id != ?`,
+    [email, userId]
+  );
+
+  return rows;
+}

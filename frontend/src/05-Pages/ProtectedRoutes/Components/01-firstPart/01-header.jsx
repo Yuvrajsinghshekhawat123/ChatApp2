@@ -2,15 +2,29 @@ import { CgProfile } from "react-icons/cg";
 import { BsChatLeftText, BsChatLeftTextFill } from "react-icons/bs";
 import { HiOutlineUserGroup, HiUserCircle, HiUserGroup } from "react-icons/hi2";
 import Swal from "sweetalert2";
-import { IoIosLogOut } from "react-icons/io";
+import { IoIosLogOut, IoMdNotifications, IoMdNotificationsOutline } from "react-icons/io";
 import { useLogout } from "../../../../03-features/user/hook/useLogout";
 import { toast } from "react-toastify";
 import {  useQueryClient } from "@tanstack/react-query";
  
  
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setActiveTab } from "../../../../00-app/activeTabSlice";
+import { useAllNotifiction } from "../../../../03-features/03-notifiction/03-hook/01-useAllNotifiction";
 
 export function Header({ activePage, setActivePage , userDetail}) {
+
+ 
+
+ const unread = useSelector(
+  (state) => state.notification?.unread
+);
+
+
+  const activeTab=useSelector((state)=>state.active.activeTab);
+  const dispatch = useDispatch();
+
     const queryClient = useQueryClient();
    const navigate = useNavigate(); // ⭐ FIX
     const {mutate:userLogout}=useLogout();
@@ -34,7 +48,7 @@ export function Header({ activePage, setActivePage , userDetail}) {
       <section className="flex flex-col  items-center justify-between w-full h-full py-5 ">
         <section className="space-y-4 ">
           <div
-            onClick={() => setActivePage("chats")}
+            onClick={() =>{ setActivePage("chats"); dispatch(setActiveTab('all'))}}
             className={`h-12 w-12 rounded-full flex justify-center items-center cursor-pointer relative group
               ${activePage === "chats" ? "bg-gray-700 " : "hover:bg-gray-700"}`}
           >
@@ -74,6 +88,55 @@ export function Header({ activePage, setActivePage , userDetail}) {
               {/* pointer-events-none==it disables the mouse interactions for that element.        */}
             </p>
           </div>
+
+
+
+
+           <div
+  onClick={() => setActivePage("notification")}
+  className={`h-12 w-12 rounded-full flex justify-center items-center cursor-pointer relative group
+    ${
+      activePage === "notification"
+        ? "bg-gray-700"
+        : "hover:bg-gray-700"
+    }`}
+>
+  {/* 🔔 Bell Icon */}
+  {activePage === "notification" ? (
+    <IoMdNotifications className="text-4xl inline" />
+  ) : (
+    <IoMdNotificationsOutline className="text-4xl inline" />
+  )}
+
+  {/* 🔴 Unread Badge */}
+  {unread > 0 && (
+    <span
+      className="
+        absolute top-1 right-1
+        min-w-[18px] h-[18px]
+        bg-red-600 text-white
+        text-xs font-bold
+        rounded-full
+        flex items-center justify-center
+        px-1
+      "
+    >
+      {unread > 9 ? "9+" : unread}
+    </span>
+  )}
+
+  {/* Tooltip */}
+  <p
+    className="z-10 absolute left-14 top-1/2 -translate-y-1/2 
+      bg-white text-black text-sm px-2 py-1 rounded-md
+      opacity-0 group-hover:opacity-100 transition-opacity duration-200
+      pointer-events-none"
+  >
+    Notifications
+  </p>
+</div>
+
+
         </section>
 
         <section className="space-y-4 ">

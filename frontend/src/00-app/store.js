@@ -4,9 +4,14 @@ import storage from "redux-persist/lib/storage";
 import { persistReducer, persistStore } from "redux-persist";
 
 import userReducer from "../03-features/user/hook/01-useSlice";
-
+import activeReducer from "./activeTabSlice";
+import chatReducer from "./01-chatSlice";
+import notificationReducer from "./02-notificationSlice"
 const rootReducer = combineReducers({
   user: userReducer,   // ✅ only user slice
+  active: activeReducer,
+  chat:chatReducer,
+  notification:notificationReducer,
 });
 
 const persistConfig = {
@@ -24,5 +29,6 @@ export const store = configureStore({
       serializableCheck: false,
     }),
 });
+
 
 export const persistor = persistStore(store);

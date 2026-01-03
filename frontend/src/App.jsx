@@ -13,6 +13,7 @@ import { ClipLoader } from "react-spinners";
 import { VerfiyLoginEmail } from "./05-Pages/ProtectedRoutes/02-verifyLoginUserEmail.jsx";
 import { sessionLoader } from "./00-CreateGlobalSession/sessionLoader.jsx/session.jsx";
 import { ResetPassword } from "./05-Pages/06-reset-Password.jsx";
+
 const Login = lazy(() => import("./05-Pages/01-Login.jsx"));
 const Register = lazy(() => import("./05-Pages/02-Register.jsx"));
 const VerifyRegisterEmail = lazy(() =>
@@ -23,9 +24,11 @@ const VerifyForgotPasswordOTP = lazy(() =>
   import("./05-Pages/05-verifyForgotPasswordOTP.jsx")
 );
 const Home = lazy(() => import("./05-Pages/Home.jsx"));
-const Dashboard = lazy(() => import("./05-Pages/ProtectedRoutes/01-Dashboard.jsx"));
+const Dashboard = lazy(() =>
+  import("./05-Pages/ProtectedRoutes/01-Dashboard.jsx")
+);
 
-export const  queryClient = new QueryClient({
+export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       staleTime: 5 * 60 * 1000, // 5 minutes
@@ -38,13 +41,11 @@ export const  queryClient = new QueryClient({
   },
 });
 
-
- 
 function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      loader:sessionLoader,
+      loader: sessionLoader,
       element: <AuthRoute />,
       children: [
         {
@@ -55,7 +56,7 @@ function App() {
     },
     {
       path: "/auth",
-       loader:sessionLoader,
+      loader: sessionLoader,
       element: <AuthRoute />,
       children: [
         {
@@ -66,7 +67,7 @@ function App() {
             { path: "verify-email", element: <VerifyRegisterEmail /> },
             { path: "forgot-password", element: <Forgotpassword /> },
             { path: "verify-otp", element: <VerifyForgotPasswordOTP /> },
-            { path: "reset-Password", element: <ResetPassword/>},
+            { path: "reset-Password", element: <ResetPassword /> },
           ],
         },
       ],
@@ -74,11 +75,12 @@ function App() {
 
     {
       path: "/user/dashboard",
-       loader:sessionLoader,
+      loader: sessionLoader,
       element: <PrivateRoute />,
       children: [
         {
-          index: true,element: <Dashboard />,
+          index: true,
+          element: <Dashboard />,
         },
         { path: "verify-email", element: <VerfiyLoginEmail /> },
       ],
@@ -91,10 +93,8 @@ function App() {
         <ToastContainer position="top-center" autoClose={3000} />
         <Suspense
           fallback={
-            <div className="flex justify-center items-center min-h-screen">
-              <div className="text-center">
-                <ClipLoader color="#2563eb" loading size={50} />
-              </div>
+            <div className="fixed inset-0 flex justify-center items-center bg-black">
+              <ClipLoader color="#ffffff" size={50} />
             </div>
           }
         >
